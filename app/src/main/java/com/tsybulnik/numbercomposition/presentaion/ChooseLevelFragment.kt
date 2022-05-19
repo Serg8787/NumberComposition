@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.tsybulnik.numbercomposition.R
 import com.tsybulnik.numbercomposition.databinding.FragmentChooseLevelBinding
-import com.tsybulnik.numbercomposition.databinding.FragmentWelcomeBinding
+import com.tsybulnik.numbercomposition.domain.entitities.Level
 import java.lang.RuntimeException
 
 // TODO: Rename parameter arguments, choose names that match
@@ -37,11 +37,30 @@ class ChooseLevelFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.buttonLevelTest.setOnClickListener {
+            launchGameFragment(Level.TEST)
+
+        }
+        binding.buttonLevelEasy.setOnClickListener {    launchGameFragment(Level.EASY) }
+        binding.buttonLevelNormal.setOnClickListener {    launchGameFragment(Level.MIDDLE) }
+        binding.buttonLevelHard.setOnClickListener {    launchGameFragment(Level.HARD) }
 
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun launchGameFragment(level: Level){
+        requireActivity().supportFragmentManager.beginTransaction()
+            .replace(R.id.main_container,GameFragment.newInstance(level))
+            .addToBackStack(null).commit()
+    }
+    companion object{
+        fun newInstance():ChooseLevelFragment{
+            return ChooseLevelFragment()
+
+        }
     }
 }

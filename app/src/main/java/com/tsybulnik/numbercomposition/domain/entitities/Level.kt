@@ -1,5 +1,7 @@
 package com.tsybulnik.numbercomposition.domain.entitities
 
- enum class Level {
+import java.io.Serializable
+
+enum class Level  {
      TEST, EASY, MIDDLE, HARD
 }
