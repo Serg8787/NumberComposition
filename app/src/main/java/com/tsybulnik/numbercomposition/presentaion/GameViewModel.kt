@@ -61,9 +61,10 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
     private var countOfRightQuestion = 0
 
     fun startGame(level: Level) {
-        getGameSettings()
+        getGameSettings(level)
         startTimer()
         generateQuestion()
+        updateProgress()
     }
 
     private fun generateQuestion() {
@@ -71,8 +72,8 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
 
     }
 
-    private fun getGameSettings() {
-        this.level = level
+    private fun getGameSettings(level: Level) {
+        this.level=level
         gameSettings = getGameSettingUseCase(level)
         _minPercent.value = gameSettings.minPercentOfRightAnswers
     }
@@ -87,19 +88,20 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
             }
 
             override fun onFinish() {
-                finishGAme()
+                finishGame()
             }
 
         }
+        timer?.start()
     }
 
-    private fun finishGAme() {
+    private fun finishGame() {
        _gameResult.value = GameResult(
             enoughCountOfRightAnswer.value == true
                     && _enouhgPercentOfRightAnswer.value == true,
-            countOfRightAnswers,
+            countOfRightAnswers=countOfRightAnswers,
             countOfQustion = countOfRightQuestion,
-            gameSettings
+            gameSettings=gameSettings
 
         )
 
@@ -108,8 +110,8 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
     private fun formatTime(millisUntilFinished: Long): String {
         val seconds = millisUntilFinished / MILLS_IN_SECONDS
         val minutes = seconds / SECONDS_IN_MINUTE
-        val leftSeconds = seconds - (minutes * MILLS_IN_SECONDS)
-        return String().format("%02d:%02d", minutes, leftSeconds)
+        val leftSeconds = seconds - (minutes * SECONDS_IN_MINUTE)
+        return String.format("%02d:%02d", minutes, leftSeconds)
 
     }
 
@@ -126,7 +128,8 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     private fun calculatePercentOfRightAnswers(): Int {
-        return (countOfRightAnswers / countOfRightQuestion.toDouble() * 100).toInt()
+        if(countOfRightQuestion==0) { return 0}
+            return (countOfRightAnswers / countOfRightQuestion.toDouble() * 100).toInt()
     }
 
     fun chooseAnswer(number: Int) {
