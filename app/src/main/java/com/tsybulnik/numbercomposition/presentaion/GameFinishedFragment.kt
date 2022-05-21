@@ -1,16 +1,12 @@
 package com.tsybulnik.numbercomposition.presentaion
 
 import android.os.Bundle
-import android.security.keystore.KeyNotYetValidException
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
-import com.tsybulnik.numbercomposition.R
-import com.tsybulnik.numbercomposition.databinding.FragmentChooseLevelBinding
 import com.tsybulnik.numbercomposition.databinding.FragmentGameFinishedBinding
-import com.tsybulnik.numbercomposition.databinding.FragmentWelcomeBinding
 import com.tsybulnik.numbercomposition.domain.entitities.GameResult
 import java.lang.RuntimeException
 
@@ -49,6 +45,7 @@ class GameFinishedFragment : Fragment() {
                retryGame()
             }
         })
+        binding.buttonRetry.setOnClickListener { retryGame() }
     }
 
     override fun onDestroyView() {
@@ -57,7 +54,9 @@ class GameFinishedFragment : Fragment() {
     }
 
     private fun parseArguments(){
-        gameResult = requireArguments().getSerializable(KEY_RESULT) as GameResult
+        requireArguments().getParcelable<GameResult>(KEY_GAME_RESULT)?.let {
+            gameResult = it
+        }
     }
 
     private fun retryGame(){
@@ -67,11 +66,11 @@ class GameFinishedFragment : Fragment() {
 
 
     companion object{
-        private const val KEY_RESULT = "key_result"
+        private const val KEY_GAME_RESULT = "key_result"
         fun newInstance(gameResult: GameResult):GameFinishedFragment{
             return GameFinishedFragment().apply {
                 arguments = Bundle().apply {
-                    putSerializable(KEY_RESULT,gameResult)
+                    putParcelable(KEY_GAME_RESULT,gameResult)
                 }
             }
 
