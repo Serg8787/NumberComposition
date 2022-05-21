@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import com.tsybulnik.numbercomposition.R
 import com.tsybulnik.numbercomposition.databinding.FragmentWelcomeBinding
 import java.lang.RuntimeException
@@ -39,10 +40,11 @@ class WelcomeFragment : Fragment() {
 
     }
     private fun launchNewLevelFragment(){
-        requireActivity().supportFragmentManager.beginTransaction()
-            .replace(R.id.main_container,ChooseLevelFragment.newInstance())
-            .addToBackStack(ChooseLevelFragment.NAME)
-            .commit()
+//        requireActivity().supportFragmentManager.beginTransaction()
+//            .replace(R.id.main_container,ChooseLevelFragment.newInstance())
+//            .addToBackStack(ChooseLevelFragment.NAME)
+//            .commit()
+        findNavController().navigate(R.id.action_welcomeFragment_to_chooseLevelFragment)
     }
 
     override fun onDestroy() {
