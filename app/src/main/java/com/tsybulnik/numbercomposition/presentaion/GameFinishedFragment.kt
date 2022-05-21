@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import com.tsybulnik.numbercomposition.R
 import com.tsybulnik.numbercomposition.databinding.FragmentChooseLevelBinding
 import com.tsybulnik.numbercomposition.databinding.FragmentGameFinishedBinding
@@ -42,6 +43,12 @@ class GameFinishedFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner,
+            object :OnBackPressedCallback(true){
+            override fun handleOnBackPressed() {
+               retryGame()
+            }
+        })
     }
 
     override fun onDestroyView() {
@@ -51,6 +58,11 @@ class GameFinishedFragment : Fragment() {
 
     private fun parseArguments(){
         gameResult = requireArguments().getSerializable(KEY_RESULT) as GameResult
+    }
+
+    private fun retryGame(){
+        requireActivity().supportFragmentManager.popBackStack(GameFragment.NAME,0)
+
     }
 
 
