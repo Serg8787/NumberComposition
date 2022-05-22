@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
+    
+    <data>
+        <variable
+            name="viewmodel"
+            type="com.tsybulnik.numbercomposition.presentaion.GameViewModel" />
+        
+        
+    </data>
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -16,6 +24,7 @@
         android:layout_margin="8dp"
         android:textColor="@color/purple_700"
         android:textSize="24sp"
+        android:text="@{viewmodel.formattedTime}"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -34,6 +43,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_chainStyle="packed"
+        app:numberAsText="@{viewmodel.question.sum}"
         tools:text="1"
         />
 
@@ -41,6 +51,7 @@
         android:id="@+id/tv_left_number"
         style="@style/QuestionTextStyle"
         android:layout_width="0dp"
+        app:numberAsText="@{viewmodel.question.visibleNumber}"
         android:layout_height="wrap_content"
         android:background="@color/teal_700"
         app:layout_constraintBottom_toTopOf="@id/tv_option_1"
@@ -71,6 +82,8 @@
         style="@style/OptionTextStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        app:onOptionClickListener="@{(option)->viewmodel.chooseAnswer(option)}"
+        android:text="@{viewmodel.question.options.get(0).toString()}"
         android:background="@android:color/holo_green_light"
         app:layout_constraintBottom_toTopOf="@id/tv_option_4"
         app:layout_constraintEnd_toStartOf="@id/tv_option_5"
@@ -84,6 +97,8 @@
         style="@style/OptionTextStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:text="@{viewmodel.question.options.get(1).toString()}"
+        app:onOptionClickListener="@{(option)->viewmodel.chooseAnswer(option)}"
         android:background="@android:color/holo_orange_light"
         app:layout_constraintBottom_toTopOf="@id/tv_option_4"
         app:layout_constraintEnd_toStartOf="@id/tv_option_6"
@@ -95,6 +110,8 @@
         android:id="@+id/tv_option_3"
         style="@style/OptionTextStyle"
         android:layout_width="0dp"
+        android:text="@{viewmodel.question.options.get(2).toString()}"
+        app:onOptionClickListener="@{(option)->viewmodel.chooseAnswer(option)}"
         android:layout_height="wrap_content"
         android:background="@android:color/holo_purple"
         app:layout_constraintBottom_toTopOf="@id/tv_option_4"
@@ -108,6 +125,8 @@
         style="@style/OptionTextStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:text="@{viewmodel.question.options.get(3).toString()}"
+        app:onOptionClickListener="@{(option)->viewmodel.chooseAnswer(option)}"
         android:background="@android:color/holo_blue_light"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/tv_option_5"
@@ -121,6 +140,8 @@
         style="@style/OptionTextStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:text="@{viewmodel.question.options.get(4).toString()}"
+        app:onOptionClickListener="@{(option)->viewmodel.chooseAnswer(option)}"
         android:background="@android:color/holo_red_light"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/tv_option_6"
@@ -133,6 +154,8 @@
         style="@style/OptionTextStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:text="@{viewmodel.question.options.get(5).toString()}"
+        app:onOptionClickListener="@{(option)->viewmodel.chooseAnswer(option)}"
         android:background="@android:color/holo_blue_bright"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -144,8 +167,9 @@
         android:id="@+id/tv_answers_progress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/progress_answers"
+        android:text="@{viewmodel.progressAnswers}"
         android:layout_margin="16dp"
+        app:enoughCount="@{viewmodel.enoughCountOfRightAnswer}"
         app:layout_constraintVertical_chainStyle="spread"
         app:layout_constraintTop_toBottomOf="@id/tv_left_number"
         app:layout_constraintBottom_toTopOf="@id/progress_bar"
@@ -157,6 +181,9 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:max="100"
+        app:enoughPercent = "@{viewmodel.enoughPercentOfRightAnswer}"
+        android:progress="@{viewmodel.percentOfRightAnswer}"
+        android:secondaryProgress="@{viewmodel.minPercent}"
         android:secondaryProgressTint="@android:color/background_dark"
         app:layout_constraintBottom_toTopOf="@+id/tv_option_2"
         app:layout_constraintEnd_toEndOf="parent"

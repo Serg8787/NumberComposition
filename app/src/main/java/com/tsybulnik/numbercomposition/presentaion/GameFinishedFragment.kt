@@ -47,37 +47,14 @@ class GameFinishedFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
-
-
     private fun retryGame(){
         findNavController().popBackStack()
 
     }
-
-
-//    }
-//    private fun getSmileResId(): Int {
-//        return if (args.gameResult.winner) {
-//            R.drawable.icons8_smile
-//        } else {
-//            R.drawable.icons8_sad
-//        }
-//    }
-//    private fun getPercentOfRightAnswers() = with(args.gameResult) {
-//        val countOfQuestions = args.gameResult.countOfQustion
-//        if (countOfQuestions == 0) {
-//            0
-//        } else {
-//            ((countOfRightAnswers / countOfQuestions.toDouble()) * 100).toInt()
-//        }
-//    }
     private fun setupClickListeners() {
 
         binding.buttonRetry.setOnClickListener {
             retryGame()
-            Log.d("finish","papa")
-
         }
     }
 
