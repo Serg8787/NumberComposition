@@ -16,11 +16,7 @@ import com.tsybulnik.numbercomposition.domain.entitities.GameResult
 import java.lang.RuntimeException
 
 
-/**
- * A simple [Fragment] subclass.
- * Use the [GameFinishedFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
+
 class GameFinishedFragment : Fragment() {
     private val args by navArgs<GameFinishedFragmentArgs>()
 
@@ -60,20 +56,21 @@ class GameFinishedFragment : Fragment() {
     }
 
     private fun bindViews(){
+        binding.gameResult = args.gameResult
         with(binding) {
             emojiResult.setImageResource(getSmileResId())
-            tvRequiredAnswers.text = String.format(
-                getString(R.string.required_score),
-                args.gameResult.gameSettings.minCountOfRightAnswers
-            )
-            tvScoreAnswers.text = String.format(
-                getString(R.string.score_answers),
-                args.gameResult.countOfRightAnswers
-            )
-            tvRequiredPercentage.text = String.format(
-                getString(R.string.required_percentage),
-                args.gameResult.gameSettings.minPercentOfRightAnswers
-            )
+//            tvRequiredAnswers.text = String.format(
+//                getString(R.string.required_score),
+//                args.gameResult.gameSettings.minCountOfRightAnswers
+//            )
+//            tvScoreAnswers.text = String.format(
+//                getString(R.string.score_answers),
+//                args.gameResult.countOfRightAnswers
+//            )
+//            tvRequiredPercentage.text = String.format(
+//                getString(R.string.required_percentage),
+//                args.gameResult.gameSettings.minPercentOfRightAnswers
+//            )
             tvScorePercentage.text = String.format(
                 getString(R.string.score_percentage),
                 getPercentOfRightAnswers()
